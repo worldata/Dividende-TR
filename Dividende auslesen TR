@@ -1,2 +1,51 @@
-import bs4 as beautifulsoup
+from bs4 import BeautifulSoup
+import html5lib
+import pandas as pd
+import fnmatch
 
+myFile=open("TR.html",'r')
+soup=BeautifulSoup(myFile,"html5lib")
+
+
+names = soup.findAll(
+            "h2",
+            {"class": "timelineEvent__title"})
+
+numbers = soup.findAll(
+            "p",
+            {"class": "timelineEvent__change"})
+
+messages = soup.findAll(
+            "p",
+            {"class": "timelineEvent__subtitle"})
+
+for s in numbers:
+    # format
+    st = str(s)
+    #anfang entfernen
+    splitted1 = st.split('<p class="timelineEvent__change"> ')[1]
+    #ende entfernen
+    splitted2 = str(splitted1.split(' â‚¬ </p>')[0])
+    # "\xa0â" enternen
+    splitted3 = str(splitted2.split("\xa0â‚¬ </p>")[0])
+
+    
+
+for name in names:
+    st1 = str(name)
+    # anfang entfernen
+    split2 = st1.split('<h2 class="timelineEvent__title" title="')[1]
+    # ende entfernen
+    split3 = split2.split(" </h2>")[0]
+    # nur 1 namen erhalten
+    split4 = split3.split("> ")[1]
+
+for message in messages:
+    str2 = str(message)
+    split1 = str2.split('<p class="timelineEvent__subtitle" title="')[1]
+    print(split1.split("-")[1])
+    
+    
+
+
+    
